@@ -3,869 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SutherKane — Label Musical</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Raleway:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<title>SutherKane</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-/* ─── VARIABLES ─────────────────────────────────────── */
-:root {
-  --g:  #18a84a;
-  --gl: #1fcc5a;
-  --gd: #0b2618;
-  --gg: rgba(24,168,74,.35);
-  --bk: #070707;
-  --wh: #f0f0f0;
-  --wd: rgba(240,240,240,.65);
-  --pu: #7c3aed;
-  --br: rgba(24,168,74,.15);
+:root{
+  --g:#18a84a;
+  --bg:#050505;
+  --glass: rgba(255,255,255,.06);
+  --text:#f2f2f2;
 }
 
-/* ─── RESET ──────────────────────────────────────────── */
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;background:var(--bk);color:var(--wh);
-  font-family:'Raleway',sans-serif;-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-button{background:none;border:none;cursor:pointer;color:inherit;font-family:inherit}
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Raleway,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+}
 
-/* ─── PAGE SYSTEM ────────────────────────────────────── */
+/* smooth like Apple */
 .page{
-  position:fixed;inset:0;
-  opacity:0;pointer-events:none;
-  transition:opacity .5s ease;
-  background:var(--bk);
-}
-.page.active{opacity:1;pointer-events:all;z-index:1}
-.inner-page{overflow-y:auto}
-.inner-page::-webkit-scrollbar{width:3px}
-.inner-page::-webkit-scrollbar-track{background:var(--bk)}
-.inner-page::-webkit-scrollbar-thumb{background:#1a4028;border-radius:2px}
-
-/* ─── HOME ───────────────────────────────────────────── */
-#home{height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-
-/* Split bg */
-.home-bg{position:absolute;inset:0;display:flex}
-.home-half{
-  width:50%;height:100%;position:relative;
-  background:var(--bk);background-size:cover;background-position:center;
-  cursor:pointer;transition:filter .3s;
-}
-.home-half:hover{filter:brightness(1.08)}
-.h-overlay{position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none}
-.h-ph{
-  position:absolute;top:1.5rem;
-  padding:.45rem .85rem;
-  background:rgba(24,168,74,.07);
-  border:1px dashed rgba(24,168,74,.22);
-  border-radius:3px;
-  font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(24,168,74,.38);
-  display:flex;align-items:center;gap:.4rem;
-  pointer-events:none;transition:opacity .4s;
-}
-#bg-m .h-ph{left:1.5rem}
-#bg-c .h-ph{right:1.5rem}
-.home-half.has-img .h-ph{opacity:0}
-
-/* Vertical top line */
-.vtop{
-  position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:2px;pointer-events:none;z-index:14;
-  background:linear-gradient(to bottom,transparent 0%,var(--g) 100%);
-}
-
-/* MUSIC / CLIP labels */
-.hnav{
-  position:absolute;top:50%;transform:translateY(-50%);z-index:20;
-  font-family:'Bebas Neue',cursive;
-  font-size:clamp(2.8rem,5.5vw,5.2rem);letter-spacing:.14em;
-  color:var(--wh);cursor:pointer;
-  transition:color .3s,text-shadow .3s;
-  text-shadow:0 2px 18px rgba(0,0,0,.5);
-}
-.hnav:hover{color:var(--gl);text-shadow:0 0 30px var(--gg),0 2px 18px rgba(0,0,0,.4)}
-#hn-m{left:8%}
-#hn-c{right:8%}
-
-/* Center logo assembly */
-.hcenter{
-  position:relative;z-index:15;
-  display:flex;flex-direction:column;align-items:center;
+  position:fixed;
+  inset:0;
+  opacity:0;
+  transform:scale(1.02);
+  filter:blur(10px);
   pointer-events:none;
+  transition:all .8s cubic-bezier(.2,.8,.2,1);
 }
 
-/* Logo circle */
-.lc{
-  width:165px;height:165px;border-radius:50%;
-  background:radial-gradient(circle at 38% 38%,#1a4830,var(--gd));
-  border:2px solid var(--g);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;pointer-events:all;cursor:default;
-  transition:box-shadow .5s;
-}
-.ls{
-  font-family:'Great Vibes',cursive;
-  font-size:2.15rem;color:var(--gl);line-height:1.1;text-align:center;
-  padding:.4rem;
+.page.active{
+  opacity:1;
+  transform:scale(1);
+  filter:blur(0);
+  pointer-events:auto;
 }
 
-/* Branch SVG */
-.bsvg{display:block;flex-shrink:0;pointer-events:none}
-
-/* Social icons */
-.srow{display:flex;width:165px;justify-content:space-between;pointer-events:none}
-.sb{
-  width:39px;height:39px;border-radius:7px;
-  border:1.5px solid var(--g);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--g);transition:all .3s;background:transparent;
-  pointer-events:all;cursor:pointer;
-}
-.sb:hover{background:var(--g);color:var(--bk);box-shadow:0 0 16px var(--gg)}
-.sb svg{width:16px;height:16px}
-
-/* Purple bottom border */
-.hbl{
-  position:absolute;bottom:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,#3b0764,var(--pu),#a855f7,var(--pu),#3b0764);
-  z-index:50;pointer-events:none;
-}
-
-/* ─── TOPBAR ──────────────────────────────────────────── */
+/* TOPBAR glass */
 .topbar{
-  position:fixed;top:0;left:0;right:0;height:70px;
-  z-index:100;display:flex;align-items:center;justify-content:space-between;
-  padding:0 4rem;
-  background:rgba(7,7,7,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--br);
-  opacity:0;pointer-events:none;transition:opacity .4s;
-}
-.topbar.vis{opacity:1;pointer-events:all}
-.tb-logo{font-family:'Great Vibes',cursive;font-size:1.85rem;color:var(--g)}
-.tb-links{display:flex;gap:2.5rem}
-.tb-links button{
-  font-family:'Bebas Neue',cursive;font-size:1rem;letter-spacing:.12em;
-  color:var(--wd);transition:color .25s;
-}
-.tb-links button:hover,.tb-links button.act{color:var(--gl)}
+  position:fixed;
+  top:0;left:0;right:0;
+  height:64px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 24px;
 
-/* ─── SHARED INNER PAGE COMPONENTS ───────────────────── */
-.phero{
-  height:60vh;min-height:360px;position:relative;
-  display:flex;align-items:flex-end;overflow:hidden;
-  padding:3rem 5rem;
-}
-.hbg{position:absolute;inset:0;z-index:1}
-.hfd{
-  position:absolute;inset:0;z-index:2;
-  background:linear-gradient(to top,var(--bk) 0%,transparent 55%);
-}
-.hct{position:relative;z-index:3;width:100%;padding-top:70px}
-.ey{font-size:.67rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--g);margin-bottom:.8rem}
-.htitle{
-  font-family:'Bebas Neue',cursive;
-  font-size:clamp(4rem,9.5vw,9rem);line-height:.9;letter-spacing:.02em;
-}
-.htitle em{color:var(--gl);font-style:normal}
+  background:rgba(10,10,10,.4);
+  backdrop-filter: blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.06);
 
-/* Sections */
-.sec{padding:5rem}
-.sec+.sec{border-top:1px solid rgba(255,255,255,.04)}
-.stitle{font-family:'Bebas Neue',cursive;font-size:clamp(2rem,3.8vw,3.3rem);letter-spacing:.03em;margin-bottom:1.5rem}
-.gdash{width:60px;height:2px;background:var(--g);margin-bottom:2rem}
-.btext{font-size:.98rem;font-weight:300;line-height:1.88;color:var(--wd);max-width:680px}
+  z-index:10;
 
-/* ─── MUSIC PAGE ─────────────────────────────────────── */
-#music .hbg{background:linear-gradient(135deg,#0c2b19 0%,#061510 50%,#040404 100%)}
-
-/* Artist cards */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:1.5rem;margin-top:3rem}
-.ac{border:1px solid var(--br);border-radius:3px;overflow:hidden;background:rgba(255,255,255,.018);transition:border-color .3s,transform .35s}
-.ac:hover{border-color:var(--g);transform:translateY(-5px)}
-.aiw{width:100%;aspect-ratio:1;background:#181818;position:relative;display:flex;align-items:center;justify-content:center}
-.aiw span{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.1)}
-.aiw::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 42%)}
-.acb{padding:1.2rem}
-.aname{font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.04em;margin-bottom:.25rem}
-.agenre{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:.8rem}
-.abio{font-size:.84rem;font-weight:300;color:rgba(240,240,240,.55);line-height:1.65}
-
-/* Releases */
-.rlist{margin-top:2.5rem;border-top:1px solid rgba(255,255,255,.05)}
-.rrow{display:flex;align-items:center;gap:1.5rem;padding:1rem .5rem;border-bottom:1px solid rgba(255,255,255,.04);transition:all .22s}
-.rrow:hover{background:rgba(24,168,74,.03);padding-left:1.2rem}
-.rnum{font-family:'Bebas Neue',cursive;font-size:1rem;color:rgba(255,255,255,.18);width:24px;flex-shrink:0}
-.rthumb{width:48px;height:48px;border-radius:3px;background:#1c1c1c;flex-shrink:0}
-.rinfo{flex:1}
-.rtitle{font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.04em}
-.rartist{font-size:.74rem;color:rgba(255,255,255,.38);margin-top:.15rem}
-.ryear{font-size:.78rem;color:var(--g);flex-shrink:0}
-
-/* Platform pills */
-.plats{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.5rem}
-.pp{
-  padding:.48rem 1.3rem;border:1px solid rgba(24,168,74,.22);border-radius:100px;
-  font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--wd);transition:all .3s;
-}
-.pp:hover{border-color:var(--g);color:var(--g);background:rgba(24,168,74,.05)}
-
-/* ─── CLIP PAGE ──────────────────────────────────────── */
-#clip .hbg{background:linear-gradient(135deg,#0a1b2e 0%,#050d18 50%,#040404 100%)}
-
-/* Process */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;margin-top:3rem}
-.pc{padding:2rem;border:1px solid var(--br);border-radius:3px;transition:border-color .3s}
-.pc:hover{border-color:var(--g)}
-.pnum{font-family:'Bebas Neue',cursive;font-size:3.5rem;color:rgba(24,168,74,.1);line-height:1;margin-bottom:1rem}
-.ptitle{font-family:'Bebas Neue',cursive;font-size:1.35rem;letter-spacing:.04em;margin-bottom:.8rem}
-.pdesc{font-size:.87rem;font-weight:300;color:rgba(240,240,240,.55);line-height:1.72}
-
-/* Video grid */
-.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:1.5rem;margin-top:3rem}
-.vc{border:1px solid var(--br);border-radius:3px;overflow:hidden;cursor:pointer;transition:border-color .3s}
-.vc:hover{border-color:var(--g)}
-.vthumb{aspect-ratio:16/9;background:#161616;display:flex;align-items:center;justify-content:center}
-.pbtn{
-  width:52px;height:52px;border-radius:50%;
-  border:2px solid var(--g);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--g);transition:all .3s;
-}
-.vc:hover .pbtn{background:var(--g);color:var(--bk);box-shadow:0 0 22px var(--gg)}
-.pbtn svg{width:19px;height:19px;fill:currentColor;margin-left:3px}
-.vinfo{padding:1rem;background:rgba(255,255,255,.018)}
-.vtitle{font-family:'Bebas Neue',cursive;font-size:1.15rem;letter-spacing:.04em}
-.vmeta{font-size:.74rem;color:rgba(255,255,255,.35);margin-top:.2rem}
-
-/* ─── CONTACT PAGE ───────────────────────────────────── */
-.cwrap{padding-top:70px;min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
-.ccol{padding:5rem}
-.ccol:first-child{border-right:1px solid rgba(255,255,255,.04)}
-.iblk{margin-bottom:2.5rem}
-.ilabel{font-size:.63rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:var(--g);margin-bottom:.55rem}
-.ival{font-size:.95rem;font-weight:300;color:var(--wd);line-height:1.72}
-
-/* Social cards */
-.scards{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:2rem}
-.scard{
-  display:flex;align-items:center;gap:.85rem;padding:.9rem 1rem;
-  border:1px solid var(--br);border-radius:6px;
-  color:var(--wh);transition:all .3s;
-}
-.scard:hover{border-color:var(--g);background:rgba(24,168,74,.04)}
-.sc-icon{
-  width:35px;height:35px;border-radius:6px;
-  background:rgba(24,168,74,.1);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--g);flex-shrink:0;
-}
-.sc-icon svg{width:16px;height:16px}
-.sc-name{font-family:'Bebas Neue',cursive;font-size:.95rem;letter-spacing:.04em}
-.sc-handle{font-size:.7rem;color:rgba(255,255,255,.32);margin-top:.1rem}
-
-/* Form */
-.fgrp{margin-bottom:1.5rem}
-.fgrp label{display:block;font-size:.63rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--g);margin-bottom:.5rem}
-.fgrp input,.fgrp textarea{
-  width:100%;background:rgba(255,255,255,.04);
-  border:1px solid rgba(24,168,74,.18);border-radius:4px;
-  padding:.85rem 1rem;color:var(--wh);
-  font-family:'Raleway',sans-serif;font-size:.9rem;font-weight:300;
-  outline:none;transition:border-color .3s;resize:none;-webkit-appearance:none;
-}
-.fgrp input::placeholder,.fgrp textarea::placeholder{color:rgba(255,255,255,.2)}
-.fgrp input:focus,.fgrp textarea:focus{border-color:var(--g)}
-.btn-send{
-  display:inline-flex;align-items:center;gap:.7rem;padding:.9rem 2.5rem;
-  background:var(--g);border:none;border-radius:4px;
-  color:var(--bk);font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:.15em;
-  cursor:pointer;transition:all .3s;
-}
-.btn-send:hover{background:var(--gl);box-shadow:0 0 28px var(--gg)}
-.btn-send svg{width:15px;height:15px;fill:currentColor}
-
-/* ─── FOOTER ─────────────────────────────────────────── */
-.footer{
-  padding:2rem 5rem;border-top:1px solid rgba(255,255,255,.04);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.f-logo{font-family:'Great Vibes',cursive;font-size:1.5rem;color:var(--g)}
-.f-copy{font-size:.7rem;letter-spacing:.08em;color:rgba(255,255,255,.2)}
-
-/* hidden file inputs */
-.fhidden{display:none}
-
-/* ─── RESPONSIVE — TABLET (≤ 900px) ────────────────── */
-@media (max-width: 900px) {
-  .topbar{padding:0 2rem}
-  .sec{padding:3.5rem 2.5rem}
-  .phero{padding:2.5rem 2.5rem}
-  .cwrap{grid-template-columns:1fr}
-  .ccol{padding:3rem 2.5rem}
-  .ccol:first-child{border-right:none;border-bottom:1px solid rgba(255,255,255,.04)}
-  .pgrid{grid-template-columns:1fr 1fr}
-  .footer{padding:1.5rem 2.5rem}
+  transform:translateY(-20px);
+  opacity:0;
+  transition:all .6s ease;
 }
 
-/* ─── RESPONSIVE — MOBILE (≤ 600px) ────────────────── */
-@media (max-width: 600px) {
-
-  /* Topbar */
-  .topbar{padding:0 1.2rem;height:60px}
-  .tb-logo{font-size:1.5rem}
-  .tb-links{gap:1.2rem}
-  .tb-links button{font-size:.85rem;letter-spacing:.08em}
-
-  /* Home labels — smaller so they don't overlap the logo */
-  .hnav{font-size:1.5rem;letter-spacing:.1em}
-  #hn-m{left:3%}
-  #hn-c{right:3%}
-
-  /* Logo circle */
-  .lc{width:120px;height:120px}
-  .ls{font-size:1.55rem}
-
-  /* Branch SVG + social row */
-  .bsvg{width:130px;height:58px}
-  .srow{width:130px}
-  .sb{width:32px;height:32px;border-radius:5px}
-  .sb svg{width:13px;height:13px}
-
-  /* Upload placeholder — hide text, show only icon */
-  .h-ph{font-size:0;padding:.4rem .5rem;gap:0}
-  .h-ph svg{width:13px;height:13px;margin:0}
-
-  /* Inner pages */
-  .phero{padding:1.5rem 1.2rem;height:52vh;min-height:280px}
-  .hct{padding-top:60px}
-  .htitle{font-size:clamp(3rem,13vw,5rem)}
-
-  .sec{padding:2.2rem 1.2rem}
-  .stitle{font-size:clamp(1.7rem,6vw,2.5rem)}
-
-  /* Cards: 1 column on small screens */
-  .cgrid{grid-template-columns:1fr}
-  .pgrid{grid-template-columns:1fr}
-  .vgrid{grid-template-columns:1fr}
-  .scards{grid-template-columns:1fr}
-
-  /* Releases */
-  .rrow{gap:.8rem;padding:.8rem .3rem}
-  .rrow:hover{padding-left:.6rem}
-
-  /* Contact */
-  .cwrap{padding-top:60px}
-  .ccol{padding:2rem 1.2rem}
-
-  /* Form */
-  .fgrp input,.fgrp textarea{font-size:.85rem}
-  .btn-send{width:100%;justify-content:center;padding:.9rem 1rem}
-
-  /* Footer */
-  .footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.5rem 1.2rem}
+.topbar.show{
+  transform:translateY(0);
+  opacity:1;
 }
 
-/* ─── RESPONSIVE — VERY SMALL (≤ 380px) ─────────────── */
-@media (max-width: 380px) {
-  .hnav{font-size:1.2rem}
-  .lc{width:100px;height:100px}
-  .ls{font-size:1.3rem}
-  .bsvg{width:110px;height:50px}
-  .srow{width:110px}
+.topbar button{
+  background:none;
+  border:none;
+  color:var(--text);
+  font-family:Bebas Neue;
+  letter-spacing:2px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.topbar button:hover{
+  color:var(--g);
+  transform:translateY(-1px);
+}
+
+/* HOME */
+#home{
+  display:flex;
+  height:100vh;
+}
+
+/* split panels */
+.half{
+  flex:1;
+  position:relative;
+  background:#0c0c0c;
+  transition:all .6s cubic-bezier(.2,.8,.2,1);
+  cursor:pointer;
+}
+
+.half:hover{
+  transform:scale(1.02);
+  filter:brightness(1.2);
+}
+
+/* center logo */
+.center{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:5;
+  text-align:center;
+
+  animation:fadeIn 1.2s ease;
+}
+
+.logo{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,.04);
+  backdrop-filter: blur(20px);
+  border:1px solid rgba(255,255,255,.1);
+
+  font-family:"Great Vibes";
+  font-size:28px;
+
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+
+  transition:transform .5s ease, box-shadow .5s ease;
+}
+
+.logo:hover{
+  transform:scale(1.05);
+  box-shadow:0 30px 80px rgba(24,168,74,.15);
+}
+
+/* NAV TEXT */
+.nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-family:Bebas Neue;
+  font-size:42px;
+  letter-spacing:3px;
+  cursor:pointer;
+
+  opacity:0;
+  animation:slideIn 1s ease forwards;
+}
+
+.left{left:40px}
+.right{right:40px}
+
+.nav:hover{
+  color:var(--g);
+  transform:translateY(-50%) scale(1.05);
+}
+
+/* INNER PAGES */
+.inner{
+  padding:90px 30px;
+  overflow:auto;
+}
+
+h1{
+  font-family:Bebas Neue;
+  color:var(--g);
+  font-size:48px;
+  margin-bottom:10px;
+
+  animation:fadeUp .8s ease;
+}
+
+p{
+  max-width:700px;
+  line-height:1.7;
+  opacity:.85;
+
+  animation:fadeUp 1s ease;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
+}
+
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(-50%) translateX(-20px)}
+  to{opacity:1;transform:translateY(-50%) translateX(0)}
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(15px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav{font-size:28px}
+  .logo{width:120px;height:120px}
 }
 </style>
 </head>
+
 <body>
 
-<!-- File pickers (hidden) -->
-<input type="file" id="fi-m" class="fhidden" accept="image/*">
-<input type="file" id="fi-c" class="fhidden" accept="image/*">
-
-<!-- ═══════════════ TOPBAR ═══════════════ -->
-<nav class="topbar" id="topbar">
-  <button class="tb-logo" onclick="go('home')">SutherKane</button>
-  <div class="tb-links">
-    <button onclick="go('music')" data-p="music">Musique</button>
-    <button onclick="go('clip')"  data-p="clip">Clips</button>
-    <button onclick="go('contact')" data-p="contact">Contact</button>
+<!-- TOPBAR -->
+<div class="topbar" id="topbar">
+  <button onclick="go('home')">SutherKane</button>
+  <div>
+    <button onclick="go('music')">Musique</button>
+    <button onclick="go('clip')">Clips</button>
+    <button onclick="go('contact')">Contact</button>
   </div>
-</nav>
+</div>
 
-<!-- ═══════════════ HOME ═══════════════ -->
+<!-- HOME -->
 <div id="home" class="page active">
+  <div class="half" onclick="go('music')"></div>
+  <div class="half" onclick="go('clip')"></div>
 
-  <!-- Split backgrounds — click to upload image -->
-  <div class="home-bg">
-    <div class="home-half" id="bg-m" onclick="pickImg('m')" title="Cliquer pour ajouter une image">
-      <div class="h-overlay"></div>
-      <div class="h-ph">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        Ajouter image
-      </div>
-    </div>
-    <div class="home-half" id="bg-c" onclick="pickImg('c')" title="Cliquer pour ajouter une image">
-      <div class="h-overlay"></div>
-      <div class="h-ph">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        Ajouter image
-      </div>
-    </div>
+  <div class="nav left" onclick="go('music')">MUSIC</div>
+  <div class="nav right" onclick="go('clip')">CLIP</div>
+
+  <div class="center">
+    <div class="logo">SutherKane</div>
   </div>
-
-  <!-- Top vertical green line (height set by JS) -->
-  <div class="vtop" id="vtop"></div>
-
-  <!-- MUSIC label (left) -->
-  <button class="hnav" id="hn-m" onclick="go('music')">MUSIC</button>
-
-  <!-- Center logo -->
-  <div class="hcenter">
-    <div class="lc" id="lc">
-      <span class="ls">SutherKane</span>
-    </div>
-
-    <!-- Branching lines to social icons -->
-    <!-- Social row width: 165px, space-between: FB@20px, IG@82px, TW@145px -->
-    <svg class="bsvg" width="165" height="72" viewBox="0 0 165 72" fill="none">
-      <line x1="82" y1="0"  x2="82" y2="24" stroke="#18a84a" stroke-width="1.5"/>
-      <line x1="82" y1="24" x2="20" y2="68" stroke="#18a84a" stroke-width="1.5"/>
-      <line x1="82" y1="24" x2="82" y2="68" stroke="#18a84a" stroke-width="1.5"/>
-      <line x1="82" y1="24" x2="145" y2="68" stroke="#18a84a" stroke-width="1.5"/>
-    </svg>
-
-    <!-- Social icons -->
-    <div class="srow">
-      <!-- Facebook -->
-      <a class="sb" href="#" target="_blank" aria-label="Facebook">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-      </a>
-      <!-- Instagram -->
-      <a class="sb" href="#" target="_blank" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </a>
-      <!-- X / Twitter -->
-      <a class="sb" href="#" target="_blank" aria-label="X / Twitter">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.738l7.73-8.835L1.254 2.25H8.08l4.264 5.638 5.9-5.638Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-    </div>
-  </div>
-
-  <!-- CLIP label (right) -->
-  <button class="hnav" id="hn-c" onclick="go('clip')">CLIP</button>
-
-  <!-- Purple bottom line -->
-  <div class="hbl"></div>
 </div>
 
-
-<!-- ═══════════════ MUSIC PAGE ═══════════════ -->
-<div id="music" class="page inner-page">
-
-  <div class="phero">
-    <div class="hbg"></div>
-    <div class="hfd"></div>
-    <div class="hct">
-      <p class="ey">SutherKane — Label Musical</p>
-      <h1 class="htitle">Notre<br><em>Musique</em></h1>
-    </div>
-  </div>
-
-  <!-- Présentation -->
-  <div class="sec">
-    <p class="ey">Notre identité</p>
-    <h2 class="stitle">Qui Sommes-Nous</h2>
-    <div class="gdash"></div>
-    <p class="btext">
-      SutherKane est un label musical indépendant dédié à la promotion d'artistes singuliers
-      et authentiques. Nous croyons en une musique sans compromis. Notre équipe accompagne
-      chaque artiste de la production à la distribution, en passant par la stratégie visuelle
-      et la communication.
-    </p>
-
-    <div style="margin-top:3rem">
-      <p class="ey" style="margin-bottom:1rem">Retrouvez-nous sur</p>
-      <div class="plats">
-        <a class="pp" href="#">Spotify</a>
-        <a class="pp" href="#">Apple Music</a>
-        <a class="pp" href="#">Deezer</a>
-        <a class="pp" href="#">YouTube Music</a>
-        <a class="pp" href="#">SoundCloud</a>
-        <a class="pp" href="#">Tidal</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Artistes -->
-  <div class="sec">
-    <p class="ey">Roster</p>
-    <h2 class="stitle">Nos Artistes</h2>
-    <div class="gdash"></div>
-    <div class="cgrid">
-
-      <div class="ac">
-        <div class="aiw"><span>Photo</span></div>
-        <div class="acb">
-          <div class="aname">Artiste 1</div>
-          <div class="agenre">Hip-Hop / Trap</div>
-          <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
-        </div>
-      </div>
-
-      <div class="ac">
-        <div class="aiw"><span>Photo</span></div>
-        <div class="acb">
-          <div class="aname">Artiste 2</div>
-          <div class="agenre">R&B / Soul</div>
-          <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
-        </div>
-      </div>
-
-      <div class="ac">
-        <div class="aiw"><span>Photo</span></div>
-        <div class="acb">
-          <div class="aname">Artiste 3</div>
-          <div class="agenre">Afro / Dancehall</div>
-          <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
-        </div>
-      </div>
-
-      <div class="ac">
-        <div class="aiw"><span>Photo</span></div>
-        <div class="acb">
-          <div class="aname">Artiste 4</div>
-          <div class="agenre">Pop / Électro</div>
-          <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Sorties -->
-  <div class="sec">
-    <p class="ey">Discographie</p>
-    <h2 class="stitle">Dernières Sorties</h2>
-    <div class="gdash"></div>
-    <div class="rlist">
-      <div class="rrow">
-        <span class="rnum">01</span><div class="rthumb"></div>
-        <div class="rinfo"><div class="rtitle">Titre du Son</div><div class="rartist">Artiste 1</div></div>
-        <span class="ryear">2024</span>
-      </div>
-      <div class="rrow">
-        <span class="rnum">02</span><div class="rthumb"></div>
-        <div class="rinfo"><div class="rtitle">Titre du Son</div><div class="rartist">Artiste 2</div></div>
-        <span class="ryear">2024</span>
-      </div>
-      <div class="rrow">
-        <span class="rnum">03</span><div class="rthumb"></div>
-        <div class="rinfo"><div class="rtitle">Titre du Son</div><div class="rartist">Artiste 3</div></div>
-        <span class="ryear">2023</span>
-      </div>
-      <div class="rrow">
-        <span class="rnum">04</span><div class="rthumb"></div>
-        <div class="rinfo"><div class="rtitle">Titre du Son</div><div class="rartist">Artiste 4</div></div>
-        <span class="ryear">2023</span>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer">
-    <span class="f-logo">SutherKane</span>
-    <span class="f-copy">© 2024 SutherKane Label — Tous droits réservés</span>
-  </footer>
+<!-- MUSIC -->
+<div id="music" class="page inner">
+  <h1>Musique</h1>
+  <p>Un label indépendant centré sur la créativité et l’authenticité artistique.</p>
 </div>
 
-
-<!-- ═══════════════ CLIP PAGE ═══════════════ -->
-<div id="clip" class="page inner-page">
-
-  <div class="phero">
-    <div class="hbg"></div>
-    <div class="hfd"></div>
-    <div class="hct">
-      <p class="ey">SutherKane — Production Audiovisuelle</p>
-      <h1 class="htitle">Nos<br><em>Clips</em></h1>
-    </div>
-  </div>
-
-  <!-- Vision -->
-  <div class="sec">
-    <p class="ey">Notre vision</p>
-    <h2 class="stitle">L'Art du Clip Musical</h2>
-    <div class="gdash"></div>
-    <p class="btext">
-      Chez SutherKane, la vidéo est une extension naturelle de la musique. Nous concevons
-      chaque clip comme une véritable œuvre visuelle, en harmonie parfaite avec l'univers
-      sonore de nos artistes. De la conception artistique au montage final, chaque détail
-      est maîtrisé avec soin et passion.
-    </p>
-  </div>
-
-  <!-- Processus -->
-  <div class="sec">
-    <p class="ey">Méthode</p>
-    <h2 class="stitle">Notre Processus</h2>
-    <div class="gdash"></div>
-    <div class="pgrid">
-
-      <div class="pc">
-        <div class="pnum">01</div>
-        <div class="ptitle">Conception & Écriture</div>
-        <p class="pdesc">Développement du concept visuel en collaboration avec l'artiste. Création du storyboard et direction artistique complète.</p>
-      </div>
-
-      <div class="pc">
-        <div class="pnum">02</div>
-        <div class="ptitle">Pré-Production</div>
-        <p class="pdesc">Repérage des lieux, casting, préparation du matériel et organisation logistique intégrale du tournage.</p>
-      </div>
-
-      <div class="pc">
-        <div class="pnum">03</div>
-        <div class="ptitle">Tournage</div>
-        <p class="pdesc">Captation avec équipement professionnel. Direction artistique et mise en scène des artistes sur le plateau.</p>
-      </div>
-
-      <div class="pc">
-        <div class="pnum">04</div>
-        <div class="ptitle">Post-Production</div>
-        <p class="pdesc">Montage cinématographique, étalonnage colorimétrique, effets visuels et masterisation audio.</p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Portfolio -->
-  <div class="sec">
-    <p class="ey">Portfolio</p>
-    <h2 class="stitle">Nos Réalisations</h2>
-    <div class="gdash"></div>
-    <div class="vgrid">
-
-      <div class="vc">
-        <div class="vthumb">
-          <div class="pbtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div>
-        <div class="vinfo"><div class="vtitle">Titre du Clip</div><div class="vmeta">Artiste 1 · 2024</div></div>
-      </div>
-
-      <div class="vc">
-        <div class="vthumb">
-          <div class="pbtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div>
-        <div class="vinfo"><div class="vtitle">Titre du Clip</div><div class="vmeta">Artiste 2 · 2024</div></div>
-      </div>
-
-      <div class="vc">
-        <div class="vthumb">
-          <div class="pbtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-        </div>
-        <div class="vinfo"><div class="vtitle">Titre du Clip</div><div class="vmeta">Artiste 3 · 2023</div></div>
-      </div>
-
-    </div>
-  </div>
-
-  <footer class="footer">
-    <span class="f-logo">SutherKane</span>
-    <span class="f-copy">© 2024 SutherKane Label — Tous droits réservés</span>
-  </footer>
+<!-- CLIP -->
+<div id="clip" class="page inner">
+  <h1>Clips</h1>
+  <p>Direction artistique, tournage et production audiovisuelle haut de gamme.</p>
 </div>
 
-
-<!-- ═══════════════ CONTACT PAGE ═══════════════ -->
-<div id="contact" class="page inner-page">
-
-  <div class="cwrap">
-
-    <!-- Left: infos -->
-    <div class="ccol">
-      <p class="ey">SutherKane Label</p>
-      <h2 class="stitle">Nous Rejoindre</h2>
-      <div class="gdash"></div>
-
-      <div class="iblk">
-        <p class="ilabel">À propos</p>
-        <p class="ival">SutherKane est un label musical indépendant fondé avec la vision de soutenir et développer des artistes authentiques. Basé en France, nous accompagnons leur parcours artistique avec engagement et passion.</p>
-      </div>
-
-      <div class="iblk">
-        <p class="ilabel">Adresse</p>
-        <p class="ival">[Votre rue et numéro]<br>[Code postal] [Ville]<br>France</p>
-      </div>
-
-      <div class="iblk">
-        <p class="ilabel">Email</p>
-        <p class="ival">contact@sutherkane.com</p>
-      </div>
-
-      <div class="iblk">
-        <p class="ilabel">Téléphone</p>
-        <p class="ival">+33 (0)6 XX XX XX XX</p>
-      </div>
-
-      <p class="ilabel">Réseaux Sociaux</p>
-      <div class="scards">
-
-        <a class="scard" href="#" target="_blank">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <rect x="2" y="2" width="20" height="20" rx="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </div>
-          <div><div class="sc-name">Instagram</div><div class="sc-handle">@sutherkane</div></div>
-        </a>
-
-        <a class="scard" href="#" target="_blank">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </div>
-          <div><div class="sc-name">Facebook</div><div class="sc-handle">SutherKane</div></div>
-        </a>
-
-        <a class="scard" href="#" target="_blank">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.738l7.73-8.835L1.254 2.25H8.08l4.264 5.638 5.9-5.638Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </div>
-          <div><div class="sc-name">X / Twitter</div><div class="sc-handle">@sutherkane</div></div>
-        </a>
-
-        <a class="scard" href="#" target="_blank">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-              <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
-            </svg>
-          </div>
-          <div><div class="sc-name">YouTube</div><div class="sc-handle">SutherKane</div></div>
-        </a>
-
-      </div>
-    </div>
-
-    <!-- Right: form -->
-    <div class="ccol">
-      <p class="ey">Collaboration / Booking</p>
-      <h2 class="stitle">Écrivez-Nous</h2>
-      <div class="gdash"></div>
-
-      <div class="fgrp">
-        <label>Nom Complet</label>
-        <input type="text" placeholder="Prénom & Nom">
-      </div>
-      <div class="fgrp">
-        <label>Email</label>
-        <input type="email" placeholder="votre@email.com">
-      </div>
-      <div class="fgrp">
-        <label>Objet</label>
-        <input type="text" placeholder="Collaboration, Booking, Presse...">
-      </div>
-      <div class="fgrp">
-        <label>Message</label>
-        <textarea rows="6" placeholder="Votre message..."></textarea>
-      </div>
-      <button class="btn-send">
-        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        Envoyer
-      </button>
-    </div>
-
-  </div>
-
-  <footer class="footer">
-    <span class="f-logo">SutherKane</span>
-    <span class="f-copy">© 2024 SutherKane Label — Tous droits réservés</span>
-  </footer>
+<!-- CONTACT -->
+<div id="contact" class="page inner">
+  <h1>Contact</h1>
+  <p>contact@sutherkane.com</p>
 </div>
 
-
-<!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
-/* ── Navigation ── */
-function go(p) {
-  document.querySelectorAll('.page').forEach(el => {
-    el.classList.remove('active');
-    el.style.zIndex = '0';
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active');
   });
-  const t = document.getElementById(p);
-  t.classList.add('active');
-  t.style.zIndex = '1';
-  if (p !== 'home') t.scrollTop = 0;
+
+  document.getElementById(page).classList.add('active');
 
   const tb = document.getElementById('topbar');
-  if (p === 'home') {
-    tb.classList.remove('vis');
-  } else {
-    tb.classList.add('vis');
-    document.querySelectorAll('.tb-links button').forEach(b => {
-      b.classList.toggle('act', b.dataset.p === p);
-    });
-  }
+  tb.classList.add('show');
 }
-
-/* ── Image upload for home backgrounds ── */
-function pickImg(side) {
-  document.getElementById('fi-' + side).click();
-}
-
-document.getElementById('fi-m').addEventListener('change', function(e) {
-  if (e.target.files[0]) applyBg(e.target.files[0], 'bg-m', 'sk_bg_m');
-});
-document.getElementById('fi-c').addEventListener('change', function(e) {
-  if (e.target.files[0]) applyBg(e.target.files[0], 'bg-c', 'sk_bg_c');
-});
-
-function applyBg(file, elemId, key) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const url = e.target.result;
-    const el = document.getElementById(elemId);
-    el.style.backgroundImage = 'url(' + url + ')';
-    el.classList.add('has-img');
-    try { localStorage.setItem(key, url); } catch(_) {}
-  };
-  reader.readAsDataURL(file);
-}
-
-/* Restore saved images on load */
-window.addEventListener('DOMContentLoaded', function() {
-  var m = localStorage.getItem('sk_bg_m');
-  var c = localStorage.getItem('sk_bg_c');
-  if (m) { var em = document.getElementById('bg-m'); em.style.backgroundImage='url('+m+')'; em.classList.add('has-img'); }
-  if (c) { var ec = document.getElementById('bg-c'); ec.style.backgroundImage='url('+c+')'; ec.classList.add('has-img'); }
-  setLineHeight();
-});
-window.addEventListener('resize', setLineHeight);
-
-/* ── Top vertical line height ── */
-function setLineHeight() {
-  var lc   = document.getElementById('lc');
-  var vtop = document.getElementById('vtop');
-  if (!lc || !vtop) return;
-  var rect = lc.getBoundingClientRect();
-  vtop.style.height = rect.top + 'px';
-}
-
-/* ── Logo glow animation ── */
-var phase = 0;
-(function pulse() {
-  phase += 0.022;
-  var k = (Math.sin(phase) + 1) / 2;
-  var lc = document.getElementById('lc');
-  if (lc) lc.style.boxShadow =
-    '0 0 ' + (12 + k * 28) + 'px rgba(24,168,74,' + (.1 + k * .22) + '),' +
-    'inset 0 0 ' + (8 + k * 14) + 'px rgba(24,168,74,.05)';
-  requestAnimationFrame(pulse);
-})();
 </script>
+
 </body>
 </html>
