@@ -1,8 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAorQQcRgB46W5GkQvuQSIbHYsFs6CPrlW",
+  apiKey: "AIzaSyAorQQcRgB46W5GkQvuQSIbHYsFs6CPrWY",
   authDomain: "suther-project.firebaseapp.com",
   projectId: "suther-project",
   storageBucket: "suther-project.firebasestorage.app",
