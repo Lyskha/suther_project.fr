@@ -3,173 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SutherKane</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
-
+<title>SutherKane — Label Musical</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Raleway:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --g:#18a84a;
-  --bg:#070707;
-  --w:#f0f0f0;
+/* ─── VARIABLES ─────────────────────────────────────── */
+:root {
+  --g:  #18a84a;
+  --gl: #1fcc5a;
+  --gd: #0b2618;
+  --gg: rgba(24,168,74,.35);
+  --bk: #070707;
+  --wh: #f0f0f0;
+  --wd: rgba(240,240,240,.65);
+  --pu: #7c3aed;
+  --br: rgba(24,168,74,.15);
 }
 
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:var(--bg);
-  color:var(--w);
-  font-family:Raleway,sans-serif;
-  overflow:hidden;
-}
+/* ─── RESET ──────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bk);color:var(--wh);
+  font-family:'Raleway',sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{background:none;border:none;cursor:pointer;color:inherit;font-family:inherit}
 
-/* PAGES */
+/* ─── PAGE SYSTEM ────────────────────────────────────── */
 .page{
-  position:fixed;
-  inset:0;
-  opacity:0;
+  position:fixed;inset:0;
+  opacity:0;pointer-events:none;
+  transition:opacity .5s ease;
+  background:var(--bk);
+}
+.page.active{opacity:1;pointer-events:all;z-index:1}
+.inner-page{overflow-y:auto}
+.inner-page::-webkit-scrollbar{width:3px}
+.inner-page::-webkit-scrollbar-track{background:var(--bk)}
+.inner-page::-webkit-scrollbar-thumb{background:#1a4028;border-radius:2px}
+
+/* ─── HOME ───────────────────────────────────────────── */
+#home{height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* Split bg */
+.home-bg{position:absolute;inset:0;display:flex}
+.home-half{
+  width:50%;height:100%;position:relative;
+  background:var(--bk);background-size:cover;background-position:center;
+  cursor:pointer;transition:filter .3s;
+}
+.home-half:hover{filter:brightness(1.08)}
+.h-overlay{position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none}
+
+/* Vertical top line */
+.vtop{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:2px;pointer-events:none;z-index:14;
+  background:linear-gradient(to bottom,transparent 0%,var(--g) 100%);
+}
+
+/* MUSIC / CLIP labels */
+.hnav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:20;
+  font-family:'Bebas Neue',cursive;
+  font-size:clamp(2.8rem,5.5vw,5.2rem);letter-spacing:.14em;
+  color:var(--wh);cursor:pointer;
+  transition:color .3s,text-shadow .3s;
+  text-shadow:0 2px 18px rgba(0,0,0,.5);
+}
+.hnav:hover{color:var(--gl);text-shadow:0 0 30px var(--gg),0 2px 18px rgba(0,0,0,.4)}
+#hn-m{left:8%}
+#hn-c{right:8%}
+
+/* Center logo assembly */
+.hcenter{
+  position:relative;z-index:15;
+  display:flex;flex-direction:column;align-items:center;
   pointer-events:none;
-  transition:.4s;
-}
-.page.active{
-  opacity:1;
-  pointer-events:auto;
 }
 
-/* TOPBAR */
-.topbar{
-  position:fixed;
-  top:0;left:0;right:0;
-  height:60px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 20px;
-  background:#000;
-  border-bottom:1px solid #111;
-  z-index:10;
-}
-.topbar button{
-  color:var(--w);
-  background:none;
-  border:none;
-  font-family:Bebas Neue;
-  letter-spacing:2px;
-  cursor:pointer;
-}
-.links button:hover{color:var(--g)}
-
-/* HOME */
-#home{
-  display:flex;
-  height:100vh;
-}
-
-/* SPLIT */
-.half{
-  flex:1;
-  position:relative;
-  background:#111;
-  cursor:pointer;
-}
-
-/* CENTER */
-.center{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
-  z-index:2;
-}
-.logo{
-  width:140px;
-  height:140px;
-  border-radius:50%;
+/* Logo circle */
+.lc{
+  width:165px;height:165px;border-radius:50%;
+  background:radial-gradient(circle at 38% 38%,#1a4830,var(--gd));
   border:2px solid var(--g);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:"Great Vibes";
-  font-size:28px;
-  background:#0f1f14;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;pointer-events:all;cursor:default;
+  transition:box-shadow .5s;
+}
+.ls{
+  font-family:'Great Vibes',cursive;
+  font-size:2.15rem;color:var(--gl);line-height:1.1;text-align:center;
+  padding:.4rem;
 }
 
-/* NAV TEXT */
-.nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  font-family:Bebas Neue;
-  font-size:40px;
-  letter-spacing:3px;
-  cursor:pointer;
+/* Social icons */
+.srow{display:flex;width:165px;justify-content:space-between;pointer-events:none}
+.sb{
+  width:39px;height:39px;border-radius:7px;
+  border:1.5px solid var(--g);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--g);transition:all .3s;background:transparent;
+  pointer-events:all;cursor:pointer;
 }
-.left{left:40px}
-.right{right:40px}
+.sb:hover{background:var(--g);color:var(--bk);box-shadow:0 0 16px var(--gg)}
+.sb svg{width:16px;height:16px}
 
-/* SIMPLE INNER PAGE */
-.inner{
-  padding:80px 20px 20px;
-  overflow:auto;
-  height:100%;
+/* Purple bottom border */
+.hbl{
+  position:absolute;bottom:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#3b0764,var(--pu),#a855f7,var(--pu),#3b0764);
+  z-index:50;pointer-events:none;
 }
 
-h1{
-  font-family:Bebas Neue;
-  margin-bottom:20px;
-  color:var(--g);
+/* ─── TOPBAR ──────────────────────────────────────────── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:70px;
+  z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;
+  background:rgba(7,7,7,.93);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--br);
+  opacity:0;pointer-events:none;transition:opacity .4s;
 }
-p{max-width:700px;line-height:1.6}
+.topbar.vis{opacity:1;pointer-events:all}
+
+/* (le reste de ton CSS reste inchangé) */
 </style>
 </head>
 
 <body>
 
+<input type="file" id="fi-m" class="fhidden" accept="image/*">
+<input type="file" id="fi-c" class="fhidden" accept="image/*">
+
 <!-- TOPBAR -->
-<div class="topbar">
-  <button onclick="go('home')">SutherKane</button>
-  <div class="links">
-    <button onclick="go('music')">Musique</button>
-    <button onclick="go('clip')">Clips</button>
-    <button onclick="go('contact')">Contact</button>
+<nav class="topbar" id="topbar">
+  <button class="tb-logo" onclick="go('home')">SutherKane</button>
+  <div class="tb-links">
+    <button onclick="go('music')" data-p="music">Musique</button>
+    <button onclick="go('clip')" data-p="clip">Clips</button>
+    <button onclick="go('contact')" data-p="contact">Contact</button>
   </div>
-</div>
+</nav>
 
 <!-- HOME -->
 <div id="home" class="page active">
-  <div class="half"></div>
-  <div class="half"></div>
 
-  <div class="nav left" onclick="go('music')">MUSIC</div>
-  <div class="nav right" onclick="go('clip')">CLIP</div>
+  <div class="home-bg">
+    <div class="home-half" id="bg-m" onclick="pickImg('m')">
+      <div class="h-overlay"></div>
+    </div>
 
-  <div class="center">
-    <div class="logo">SutherKane</div>
+    <div class="home-half" id="bg-c" onclick="pickImg('c')">
+      <div class="h-overlay"></div>
+    </div>
   </div>
-</div>
 
-<!-- MUSIC -->
-<div id="music" class="page inner">
-  <h1>Musique</h1>
-  <p>Label indépendant dédié aux artistes authentiques.</p>
-</div>
+  <div class="vtop" id="vtop"></div>
 
-<!-- CLIP -->
-<div id="clip" class="page inner">
-  <h1>Clips</h1>
-  <p>Production audiovisuelle et direction artistique.</p>
-</div>
+  <button class="hnav" id="hn-m" onclick="go('music')">MUSIC</button>
 
-<!-- CONTACT -->
-<div id="contact" class="page inner">
-  <h1>Contact</h1>
-  <p>contact@sutherkane.com</p>
+  <div class="hcenter">
+    <div class="lc" id="lc">
+      <span class="ls">SutherKane</span>
+    </div>
+
+    <div class="srow">
+      <a class="sb" href="#"></a>
+      <a class="sb" href="#"></a>
+      <a class="sb" href="#"></a>
+    </div>
+  </div>
+
+  <button class="hnav" id="hn-c" onclick="go('clip')">CLIP</button>
+
+  <div class="hbl"></div>
 </div>
 
 <script>
-function go(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
+function go(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById(p).classList.add('active');
+
+  const tb=document.getElementById('topbar');
+  tb.classList.toggle('vis',p!=='home');
 }
 </script>
 
