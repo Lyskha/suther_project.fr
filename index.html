@@ -73,29 +73,25 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   pointer-events:none;
 }
 
-/* Logo circle */
-.lc{
-  width:165px;height:165px;border-radius:50%;
-  background:radial-gradient(circle at 38% 38%,#1a4830,var(--gd));
-  border:2px solid var(--g);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;pointer-events:all;cursor:default;
-  transition:box-shadow .5s;
+/* Logo container (remplace le cercle vert) */
+.logo-container {
+  width: 165px;
+  height: 165px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  pointer-events: none;
+  transition: box-shadow .5s;
 }
 
-/* Logo image inside the circle */
+/* Logo image */
 .logo-img {
-  width: 85%; /* Prend 85% de la largeur du cercle pour éviter les bords */
-  height: 85%; /* Prend 85% de la hauteur du cercle */
-  object-fit: contain; /* Conserve les proportions du logo */
-  pointer-events: none; /* Désactive les interactions avec le logo */
-  filter: drop-shadow(0 0 8px #18a84a) drop-shadow(0 0 12px #1fcc5a); /* Effet néon renforcé */
-}
-
-.ls{
-  font-family:'Great Vibes',cursive;
-  font-size:2.15rem;color:var(--gl);line-height:1.1;text-align:center;
-  padding:.4rem;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px #18a84a) drop-shadow(0 0 12px #1fcc5a);
 }
 
 /* Branch SVG */
@@ -282,8 +278,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 .f-logo{font-family:'Great Vibes',cursive;font-size:1.5rem;color:var(--g)}
 .f-copy{font-size:.7rem;letter-spacing:.08em;color:rgba(255,255,255,.2)}
 
-/* hidden file inputs */
-
 /* ─── RESPONSIVE — TABLET (≤ 900px) ────────────────── */
 @media (max-width: 900px) {
   .topbar{padding:0 2rem}
@@ -298,25 +292,22 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
 /* ─── RESPONSIVE — MOBILE (≤ 600px) ────────────────── */
 @media (max-width: 600px) {
-
   /* Topbar */
   .topbar{padding:0 1.2rem;height:60px}
   .tb-logo{font-size:1.5rem}
   .tb-links{gap:1.2rem}
   .tb-links button{font-size:.85rem;letter-spacing:.08em}
 
-  /* Home labels — smaller so they don't overlap the logo */
+  /* Home labels */
   .hnav{font-size:1.5rem;letter-spacing:.1em}
   #hn-m{left:3%}
   #hn-c{right:3%}
 
-  /* Logo circle */
-  .lc{width:120px;height:120px}
-  .logo-img {
-    width: 80%; /* Légèrement réduit pour mobile */
-    height: 80%;
+  /* Logo container */
+  .logo-container {
+    width: 120px;
+    height: 120px;
   }
-  .ls{font-size:1.55rem}
 
   /* Branch SVG + social row */
   .bsvg{width:130px;height:58px}
@@ -357,12 +348,10 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 /* ─── RESPONSIVE — VERY SMALL (≤ 380px) ─────────────── */
 @media (max-width: 380px) {
   .hnav{font-size:1.2rem}
-  .lc{width:100px;height:100px}
-  .logo-img {
-    width: 75%; /* Encore plus petit pour les très petits écrans */
-    height: 75%;
+  .logo-container {
+    width: 100px;
+    height: 100px;
   }
-  .ls{font-size:1.3rem}
   .bsvg{width:110px;height:50px}
   .srow{width:110px}
 }
@@ -401,14 +390,11 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
   <!-- Center logo -->
   <div class="hcenter">
-    <div class="lc" id="lc">
-      <img class="logo-img"
-           src="https://raw.githubusercontent.com/lyskha/suther_project.fr/main/LOGO%20SUTHER%20NEON%20VERT.png"
-           alt="SutherKane Logo">
+    <div class="logo-container" id="lc">
+      <img class="logo-img" src="https://raw.githubusercontent.com/lyskha/suther_project.fr/main/LOGO%20SUTHER%20NEON%20VERT.png" alt="SutherKane Logo">
     </div>
 
     <!-- Branching lines to social icons -->
-    <!-- Social row width: 165px, space-between: FB@20px, IG@82px, TW@145px -->
     <svg class="bsvg" width="165" height="72" viewBox="0 0 165 72" fill="none">
       <line x1="82" y1="0"  x2="82" y2="24" stroke="#18a84a" stroke-width="1.5"/>
       <line x1="82" y1="24" x2="20" y2="68" stroke="#18a84a" stroke-width="1.5"/>
@@ -446,7 +432,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
 <!-- ═══════════════ MUSIC PAGE ═══════════════ -->
 <div id="music" class="page inner-page">
-
   <div class="phero">
     <div class="hbg"></div>
     <div class="hfd"></div>
@@ -487,7 +472,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
     <h2 class="stitle">Nos Artistes</h2>
     <div class="gdash"></div>
     <div class="cgrid">
-
       <div class="ac">
         <div class="aiw"><span>Photo</span></div>
         <div class="acb">
@@ -496,7 +480,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
           <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
         </div>
       </div>
-
       <div class="ac">
         <div class="aiw"><span>Photo</span></div>
         <div class="acb">
@@ -505,7 +488,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
           <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
         </div>
       </div>
-
       <div class="ac">
         <div class="aiw"><span>Photo</span></div>
         <div class="acb">
@@ -514,7 +496,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
           <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
         </div>
       </div>
-
       <div class="ac">
         <div class="aiw"><span>Photo</span></div>
         <div class="acb">
@@ -523,7 +504,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
           <p class="abio">Description de l'artiste, son univers, son style musical et son parcours artistique.</p>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -564,7 +544,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
 <!-- ═══════════════ CLIP PAGE ═══════════════ -->
 <div id="clip" class="page inner-page">
-
   <div class="phero">
     <div class="hbg"></div>
     <div class="hfd"></div>
@@ -593,31 +572,26 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
     <h2 class="stitle">Notre Processus</h2>
     <div class="gdash"></div>
     <div class="pgrid">
-
       <div class="pc">
         <div class="pnum">01</div>
         <div class="ptitle">Conception & Écriture</div>
         <p class="pdesc">Développement du concept visuel en collaboration avec l'artiste. Création du storyboard et direction artistique complète.</p>
       </div>
-
       <div class="pc">
         <div class="pnum">02</div>
         <div class="ptitle">Pré-Production</div>
         <p class="pdesc">Repérage des lieux, casting, préparation du matériel et organisation logistique intégrale du tournage.</p>
       </div>
-
       <div class="pc">
         <div class="pnum">03</div>
         <div class="ptitle">Tournage</div>
         <p class="pdesc">Captation avec équipement professionnel. Direction artistique et mise en scène des artistes sur le plateau.</p>
       </div>
-
       <div class="pc">
         <div class="pnum">04</div>
         <div class="ptitle">Post-Production</div>
         <p class="pdesc">Montage cinématographique, étalonnage colorimétrique, effets visuels et masterisation audio.</p>
       </div>
-
     </div>
   </div>
 
@@ -627,28 +601,24 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
     <h2 class="stitle">Nos Réalisations</h2>
     <div class="gdash"></div>
     <div class="vgrid">
-
       <div class="vc">
         <div class="vthumb">
           <div class="pbtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div>
         <div class="vinfo"><div class="vtitle">Titre du Clip</div><div class="vmeta">Artiste 1 · 2024</div></div>
       </div>
-
       <div class="vc">
         <div class="vthumb">
           <div class="pbtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div>
         <div class="vinfo"><div class="vtitle">Titre du Clip</div><div class="vmeta">Artiste 2 · 2024</div></div>
       </div>
-
       <div class="vc">
         <div class="vthumb">
           <div class="pbtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
         </div>
         <div class="vinfo"><div class="vtitle">Titre du Clip</div><div class="vmeta">Artiste 3 · 2023</div></div>
       </div>
-
     </div>
   </div>
 
@@ -660,9 +630,7 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
 <!-- ═══════════════ CONTACT PAGE ═══════════════ -->
 <div id="contact" class="page inner-page">
-
   <div class="cwrap">
-
     <!-- Left: infos -->
     <div class="ccol">
       <p class="ey">SutherKane Label</p>
@@ -691,7 +659,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
       <p class="ilabel">Réseaux Sociaux</p>
       <div class="scards">
-
         <a class="scard" href="#" target="_blank">
           <div class="sc-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -726,7 +693,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
           </div>
           <div><div class="sc-name">YouTube</div><div class="sc-handle">SutherKane</div></div>
         </a>
-
       </div>
     </div>
 
@@ -757,7 +723,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
         Envoyer
       </button>
     </div>
-
   </div>
 
   <footer class="footer">
@@ -807,8 +772,8 @@ var phase = 0;
 (function pulse() {
   phase += 0.022;
   var k = (Math.sin(phase) + 1) / 2;
-  var lc = document.getElementById('lc');
-  if (lc) lc.style.boxShadow =
+  var logoContainer = document.querySelector('.logo-container');
+  if (logoContainer) logoContainer.style.boxShadow =
     '0 0 ' + (12 + k * 28) + 'px rgba(24,168,74,' + (.1 + k * .22) + '),' +
     'inset 0 0 ' + (8 + k * 14) + 'px rgba(24,168,74,.05)';
   requestAnimationFrame(pulse);
