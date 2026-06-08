@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administration Suther</title>
+
+<style>
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+padding:30px;
+}
+
+.card{
+background:#1a1a1a;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:10px;
+border:none;
+border-radius:8px;
+}
+
+button{
+padding:10px 20px;
+background:#18a84a;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Administration Suther</h1>
+
+<div id="login" class="card">
+<h2>Connexion Admin</h2>
+<button id="googleLogin">Connexion Google</button>
+</div>
+
+<div id="adminPanel" style="display:none;">
+
+<div class="card">
+<h2>Paramètres du site</h2>
+
+<input id="siteName" placeholder="Nom du site">
+<input id="logoMain" placeholder="URL logo principal">
+<input id="logoFooter" placeholder="URL logo footer">
+
+<button id="saveSettings">
+Sauvegarder
+</button>
+</div>
+
+</div>
+
+<script type="module">
+
+import { auth, provider, db }
+from "./js/firebase.js";
+
+import {
+signInWithPopup
+}
+from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+import {
+doc,
+getDoc,
+updateDoc
+}
+from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+const ADMIN =
+"khalyssandescu75@yahoo.com";
+
+const loginBtn =
+document.getElementById("googleLogin");
+
+const panel =
+document.getElementById("adminPanel");
+
+loginBtn.onclick = async()=>{
+
+const result =
+await signInWithPopup(auth,provider);
+
+if(result.user.email !== ADMIN){
+alert("Accès refusé");
+return;
+}
+
+panel.style.display="block";
+
+loadSettings();
+};
+
+async function loadSettings(){
+
+const ref =
+doc(db,"settings","site");
+
+const snap =
+await getDoc(ref);
+
+const data =
+snap.data();
+
+document.getElementById("siteName").value =
+data.SiteName || "";
+
+document.getElementById("logoMain").value =
+data.logoMain || "";
+
+document.getElementById("logoFooter").value =
+data.logoFooter || "";
+}
+
+document
+.getElementById("saveSettings")
+.onclick = async()=>{
+
+await updateDoc(
+doc(db,"settings","site"),
+{
+SiteName:
+document.getElementById("siteName").value,
+
+logoMain:
+document.getElementById("logoMain").value,
+
+logoFooter:
+document.getElementById("logoFooter").value
+}
+);
+
+alert("Sauvegardé");
+};
+
+</script>
+
+</body>
+</html>
