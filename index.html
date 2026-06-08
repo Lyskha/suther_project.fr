@@ -53,8 +53,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 .home-half:hover{filter:brightness(1.08)}
 .h-overlay{position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none}
 
-
-
 /* MUSIC / CLIP labels */
 .hnav{
   position:absolute;top:50%;transform:translateY(-50%);z-index:20;
@@ -84,6 +82,16 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   flex-shrink:0;pointer-events:all;cursor:default;
   transition:box-shadow .5s;
 }
+
+/* Logo image inside the circle */
+.logo-img {
+  width: 85%; /* Prend 85% de la largeur du cercle pour éviter les bords */
+  height: 85%; /* Prend 85% de la hauteur du cercle */
+  object-fit: contain; /* Conserve les proportions du logo */
+  pointer-events: none; /* Désactive les interactions avec le logo */
+  filter: drop-shadow(0 0 8px #18a84a) drop-shadow(0 0 12px #1fcc5a); /* Effet néon renforcé */
+}
+
 .ls{
   font-family:'Great Vibes',cursive;
   font-size:2.15rem;color:var(--gl);line-height:1.1;text-align:center;
@@ -276,7 +284,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
 /* hidden file inputs */
 
-
 /* ─── RESPONSIVE — TABLET (≤ 900px) ────────────────── */
 @media (max-width: 900px) {
   .topbar{padding:0 2rem}
@@ -305,6 +312,10 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
   /* Logo circle */
   .lc{width:120px;height:120px}
+  .logo-img {
+    width: 80%; /* Légèrement réduit pour mobile */
+    height: 80%;
+  }
   .ls{font-size:1.55rem}
 
   /* Branch SVG + social row */
@@ -347,6 +358,10 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 @media (max-width: 380px) {
   .hnav{font-size:1.2rem}
   .lc{width:100px;height:100px}
+  .logo-img {
+    width: 75%; /* Encore plus petit pour les très petits écrans */
+    height: 75%;
+  }
   .ls{font-size:1.3rem}
   .bsvg{width:110px;height:50px}
   .srow{width:110px}
@@ -354,7 +369,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 </style>
 </head>
 <body>
-
 
 <!-- ═══════════════ TOPBAR ═══════════════ -->
 <nav class="topbar" id="topbar">
@@ -388,10 +402,10 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   <!-- Center logo -->
   <div class="hcenter">
     <div class="lc" id="lc">
-  <img class="logo-img"
-       src="https://raw.githubusercontent.com/lyskha/suther_project.fr/main/LOGO%20SUTHER%20NEON%20VERT.png"
-       alt="SutherKane Logo">
-</div>
+      <img class="logo-img"
+           src="https://raw.githubusercontent.com/lyskha/suther_project.fr/main/LOGO%20SUTHER%20NEON%20VERT.png"
+           alt="SutherKane Logo">
+    </div>
 
     <!-- Branching lines to social icons -->
     <!-- Social row width: 165px, space-between: FB@20px, IG@82px, TW@145px -->
@@ -429,7 +443,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   <!-- Purple bottom line -->
   <div class="hbl"></div>
 </div>
-
 
 <!-- ═══════════════ MUSIC PAGE ═══════════════ -->
 <div id="music" class="page inner-page">
@@ -549,7 +562,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   </footer>
 </div>
 
-
 <!-- ═══════════════ CLIP PAGE ═══════════════ -->
 <div id="clip" class="page inner-page">
 
@@ -645,7 +657,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
     <span class="f-copy">© 2024 SutherKane Label — Tous droits réservés</span>
   </footer>
 </div>
-
 
 <!-- ═══════════════ CONTACT PAGE ═══════════════ -->
 <div id="contact" class="page inner-page">
@@ -755,7 +766,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   </footer>
 </div>
 
-
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
 /* ── Navigation ── */
@@ -779,7 +789,6 @@ function go(p) {
     });
   }
 }
-
 
 window.addEventListener('DOMContentLoaded', setLineHeight);
 window.addEventListener('resize', setLineHeight);
