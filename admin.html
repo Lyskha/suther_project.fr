@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +28,8 @@ margin-top:10px;
 margin-bottom:10px;
 border:none;
 border-radius:8px;
+background:#333;
+color:white;
 }
 
 button{
@@ -37,50 +40,89 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 }
+
+label{
+display:block;
+margin-top:15px;
+}
 </style>
 
 </head>
+
 <body>
 
 <h1>Administration Suther</h1>
 
 <div id="login" class="card">
 <h2>Connexion Admin</h2>
-<button id="googleLogin">Connexion Google</button>
+<button id="googleLogin">
+Connexion Google
+</button>
 </div>
 
 <div id="adminPanel" style="display:none;">
 
 <div class="card">
+
 <h2>Paramètres du site</h2>
 
 <input id="siteName" placeholder="Nom du site">
-<input id="logoMain" placeholder="URL logo principal">
-<input id="logoFooter" placeholder="URL logo footer">
+
+<input id="logoMain" placeholder="Logo principal">
+
+<input id="logoFooter" placeholder="Logo footer">
+
+<input id="favicon" placeholder="Favicon">
+
+<input id="homeBgLeft" placeholder="Image gauche homepage">
+
+<input id="homeBgRight" placeholder="Image droite homepage">
+
+<input id="musicTitle" placeholder="Titre section musique">
+
+<input id="clipTitle" placeholder="Titre section clips">
+
+<input id="contactEmail" placeholder="Email contact">
+
+<input id="contactPhone" placeholder="Téléphone">
+
+<input id="themeColor" placeholder="Couleur du thème">
+
+<label>
+<input
+type="checkbox"
+id="maintenance"
+style="width:auto;">
+Mode maintenance
+</label>
+
+<br>
 
 <button id="saveSettings">
 Sauvegarder
 </button>
+
 </div>
 
 </div>
 
 <script type="module">
 
-import { auth, provider, db }
-from "./js/firebase.js";
+import {
+auth,
+provider,
+db
+} from "./js/firebase.js";
 
 import {
 signInWithPopup
-}
-from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
 import {
 doc,
 getDoc,
 updateDoc
-}
-from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 const ADMIN =
 "khalyssandescu75@yahoo.com";
@@ -93,17 +135,29 @@ document.getElementById("adminPanel");
 
 loginBtn.onclick = async()=>{
 
+try{
+
 const result =
 await signInWithPopup(auth,provider);
 
 if(result.user.email !== ADMIN){
+
 alert("Accès refusé");
 return;
+
 }
 
 panel.style.display="block";
 
 loadSettings();
+
+}catch(error){
+
+console.error(error);
+alert(error.message);
+
+}
+
 };
 
 async function loadSettings(){
@@ -125,15 +179,46 @@ data.logoMain || "";
 
 document.getElementById("logoFooter").value =
 data.logoFooter || "";
+
+document.getElementById("favicon").value =
+data.favicon || "";
+
+document.getElementById("homeBgLeft").value =
+data.homeBgLeft || "";
+
+document.getElementById("homeBgRight").value =
+data.homeBgRight || "";
+
+document.getElementById("musicTitle").value =
+data.musicTitle || "";
+
+document.getElementById("clipTitle").value =
+data.clipTitle || "";
+
+document.getElementById("contactEmail").value =
+data.contactEmail || "";
+
+document.getElementById("contactPhone").value =
+data.contactPhone || "";
+
+document.getElementById("themeColor").value =
+data.ThemeColor || "";
+
+document.getElementById("maintenance").checked =
+data.maintenance || false;
+
 }
 
 document
 .getElementById("saveSettings")
 .onclick = async()=>{
 
+try{
+
 await updateDoc(
 doc(db,"settings","site"),
 {
+
 SiteName:
 document.getElementById("siteName").value,
 
@@ -141,11 +226,47 @@ logoMain:
 document.getElementById("logoMain").value,
 
 logoFooter:
-document.getElementById("logoFooter").value
+document.getElementById("logoFooter").value,
+
+favicon:
+document.getElementById("favicon").value,
+
+homeBgLeft:
+document.getElementById("homeBgLeft").value,
+
+homeBgRight:
+document.getElementById("homeBgRight").value,
+
+musicTitle:
+document.getElementById("musicTitle").value,
+
+clipTitle:
+document.getElementById("clipTitle").value,
+
+contactEmail:
+document.getElementById("contactEmail").value,
+
+contactPhone:
+document.getElementById("contactPhone").value,
+
+ThemeColor:
+document.getElementById("themeColor").value,
+
+maintenance:
+document.getElementById("maintenance").checked
+
 }
 );
 
-alert("Sauvegardé");
+alert("Sauvegardé avec succès");
+
+}catch(error){
+
+console.error(error);
+alert(error.message);
+
+}
+
 };
 
 </script>
