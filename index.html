@@ -48,25 +48,12 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 .home-half{
   width:50%;height:100%;position:relative;
   background:var(--bk);background-size:cover;background-position:center;
-  cursor:pointer;transition:filter .3s;
-}
-.home-half:hover{filter:brightness(1.08)}
-.h-overlay{position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none}
-.h-ph{
-  position:absolute;top:1.5rem;
-  padding:.45rem .85rem;
-  background:rgba(24,168,74,.07);
-  border:1px dashed rgba(24,168,74,.22);
-  border-radius:3px;
-  font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(24,168,74,.38);
-  display:flex;align-items:center;gap:.4rem;
-  pointer-events:none;transition:opacity .4s;
-}
-#bg-m .h-ph{left:1.5rem}
-#bg-c .h-ph{right:1.5rem}
-.home-half.has-img .h-ph{opacity:0}
 
+}
+.h-overlay{position:absolute;inset:0;background:rgba(0,0,0,.52);pointer-events:none}
+
+#bg-m 
+#bg-c 
 /* Vertical top line */
 .vtop{
   position:absolute;top:0;left:50%;transform:translateX(-50%);
@@ -333,8 +320,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
   .sb svg{width:13px;height:13px}
 
   /* Upload placeholder — hide text, show only icon */
-  .h-ph{font-size:0;padding:.4rem .5rem;gap:0}
-  .h-ph svg{width:13px;height:13px;margin:0}
 
   /* Inner pages */
   .phero{padding:1.5rem 1.2rem;height:52vh;min-height:280px}
@@ -379,8 +364,6 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 <body>
 
 <!-- File pickers (hidden) -->
-<input type="file" id="fi-m" class="fhidden" accept="image/*">
-<input type="file" id="fi-c" class="fhidden" accept="image/*">
 
 <!-- ═══════════════ TOPBAR ═══════════════ -->
 <nav class="topbar" id="topbar">
@@ -397,19 +380,11 @@ button{background:none;border:none;cursor:pointer;color:inherit;font-family:inhe
 
   <!-- Split backgrounds — click to upload image -->
   <div class="home-bg">
-    <div class="home-half" id="bg-m" onclick="pickImg('m')" title="Cliquer pour ajouter une image">
+    <div class="home-half" id="bg-m">
       <div class="h-overlay"></div>
-      <div class="h-ph">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        Ajouter image
-      </div>
     </div>
-    <div class="home-half" id="bg-c" onclick="pickImg('c')" title="Cliquer pour ajouter une image">
+    <div class="home-half" id="bg-c">
       <div class="h-overlay"></div>
-      <div class="h-ph">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        Ajouter image
-      </div>
     </div>
   </div>
 
@@ -813,37 +788,14 @@ function go(p) {
 }
 
 /* ── Image upload for home backgrounds ── */
-function pickImg(side) {
-  document.getElementById('fi-' + side).click();
-}
 
-document.getElementById('fi-m').addEventListener('change', function(e) {
-  if (e.target.files[0]) applyBg(e.target.files[0], 'bg-m', 'sk_bg_m');
-});
-document.getElementById('fi-c').addEventListener('change', function(e) {
-  if (e.target.files[0]) applyBg(e.target.files[0], 'bg-c', 'sk_bg_c');
-});
 
-function applyBg(file, elemId, key) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const url = e.target.result;
-    const el = document.getElementById(elemId);
-    el.style.backgroundImage = 'url(' + url + ')';
-    el.classList.add('has-img');
-    try { localStorage.setItem(key, url); } catch(_) {}
   };
   reader.readAsDataURL(file);
 }
 
 /* Restore saved images on load */
-window.addEventListener('DOMContentLoaded', function() {
-  var m = localStorage.getItem('sk_bg_m');
-  var c = localStorage.getItem('sk_bg_c');
-  if (m) { var em = document.getElementById('bg-m'); em.style.backgroundImage='url('+m+')'; em.classList.add('has-img'); }
-  if (c) { var ec = document.getElementById('bg-c'); ec.style.backgroundImage='url('+c+')'; ec.classList.add('has-img'); }
-  setLineHeight();
-});
+window.addEventListener('DOMContentLoaded', setLineHeight);
 window.addEventListener('resize', setLineHeight);
 
 /* ── Top vertical line height ── */
